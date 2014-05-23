@@ -1,0 +1,55 @@
+---
+
+backup_ssh_user: backup
+backup_manager_source_url: https://github.com/sukria/Backup-Manager.git
+
+# Where to store the archives
+backup_repository: /backups
+
+# Number of days we have to keep an archive (Time To Live)
+backup_archive_ttl: 5
+
+# At which frequency will you build your archives?
+# You can choose either "daily" or "hourly".
+backup_archive_frequency: hourly
+
+# The backup method to use.
+# Available methods are:
+# - tarball
+# - tarball-incremental
+# - mysql
+# - pgsql
+# - svn
+# - pipe
+# - none
+backup_archive_methods: none
+
+# target backups
+
+# Paths without spaces in their name:
+backup_target_paths:
+  - /
+
+backup_target_blacklist:
+  - /tmp
+  - /dev
+  - /proc
+  - /sys
+  - /var/run
+
+# Which frequency to use for the master tarball?
+# possible values: weekly, monthly
+
+backup_master_tarball_frequency: weekly
+
+# Credentials for database backups
+#
+# backup_mysql_admin_user: myuser
+# backup_mysql_admin_pass: mypass
+# backup_pgsql_admin_user: pguser
+# backup_pgsql_admin_pass: pgpass
+
+backup_upload_method: none
+backup_upload_host: localhost
+backup_upload_destination: /backups
+backup_upload_ssh_key: /root/.ssh/id_rsa

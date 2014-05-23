@@ -1,0 +1,29 @@
+---
+
+- name: Install packages
+  yum: name={{ item }} state=installed
+  with_items:
+    - git
+    - make
+  when: ansible_os_family == 'RedHat'
+
+- name: Install backup utilities
+  git: repo={{ backup_manager_source_url }}
+       dest=/tmp/backup_manager
+       version="HEAD"
+  tags:
+    - install
+    - backup
+
+- name: Configure backup application
+  command: chdir=/tmp/backup_manager /usr/bin/make install
+  tags:
+    - install
+    - backup
+
+
+- name: Config backup utilities
+  template: src=backup-manager.conf.j2 dest=/etc/backup-manager.conf mode=600
+
+- name: Add to cron
+  cron: name="Backup Manager" cron_file=backup_manager special_time=hourly job="/usr/local/sbin/backup-manager" user="root"
